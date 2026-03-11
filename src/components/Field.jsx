@@ -1,5 +1,5 @@
 const Field = (props) => {
-    const {className= '' , id , label , type = 'text' ,value ,  onInput} = props
+    const {className= '' , id , label , type = 'text' , value ,  onInput} = props
     return (
         <>
          <div className={`field ${className}`}>

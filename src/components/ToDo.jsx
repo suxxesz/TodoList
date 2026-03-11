@@ -2,10 +2,15 @@ import SearchForm from './SearchForm'
 import AddTaskForm from "./AddTaskForm"
 import ToDoInfo from "./TodoInfo"
 import ToDoList from "./ToDolist"
-import { useState } from 'react'
+import { useState , useEffect, use} from 'react'
 
 const ToDo = () =>  {
-
+    useEffect(() => {
+        console.log('ToDo component mounted')
+        return () => {
+            console.log('ToDo component unmounted')
+        }
+    } , [])
 
 
     const [tasks, setTasks] = useState([
@@ -29,15 +34,16 @@ const ToDo = () =>  {
     const [newTaskTitle, setNewTaskTitle] = useState('')
 
 
-    const deleteAllTasks = (tasks) => {
-            console.log('delete all tasks')
+    const deleteAllTasks = () => {
+        const confirmDelete = window.confirm('Вы уверены, что хотите удалить все задачи?')
+        if(confirmDelete){ setTasks([])}
     }
     
-    const deleteTask = (id) => {
-        console.log('delete task with id: ' + id)
+    const deleteTask = (taskId) => {
+        setTasks(tasks.filter(t => t.id !== taskId))
     }
     const toggleTaskState = (taskId , isDone) => {
-        console.log(`Задача с id ${taskId} теперь ${isDone ? 'выполнена' : 'не выполнена'}`)
+        setTasks(tasks.map(t => t.id === taskId ? {...t , isDone} : t))
     }
     const filterTasks = (query) => {
         console.log('filter tasks with query: ' + query)
@@ -55,7 +61,11 @@ const ToDo = () =>  {
     }
     return (
         <> 
-        <AddTaskForm onAddTask={addTask} newTaskTitle={newTaskTitle} onNewTaskTitleChange={setNewTaskTitle}/>
+        <AddTaskForm 
+        onAddTask={addTask} 
+        newTaskTitle={newTaskTitle} 
+        setNewTaskTitle={setNewTaskTitle}
+        />
             <SearchForm onSearchInput={filterTasks}/>
             <ToDoInfo 
                 total={tasks.length}
