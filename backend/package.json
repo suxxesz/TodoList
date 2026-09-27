@@ -17,6 +17,7 @@
     "nodemon": "^3.1.14"
   },
   "dependencies": {
+    "@libsql/client": "^0.18.0",
     "express": "^5.2.1"
   }
 }
